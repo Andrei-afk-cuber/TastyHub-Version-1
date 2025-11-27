@@ -18,14 +18,14 @@ def send_request(request):
         print(f"Network error: {e}")
         return {"status": "error", "message": "Network error"}
 
-
-def toggle_password(p_block, show_password_var):
+# method for toggle password
+def toggle_password(p_block, show_password_var) -> None:
     if show_password_var.get():
         p_block.configure(show="")
     else:
         p_block.configure(show="*")
 
-
+# method for user authorization
 def check_login(username: str, password: str) -> Optional[User]:
     response = send_request({
         "action": "check_login",
@@ -41,7 +41,7 @@ def check_login(username: str, password: str) -> Optional[User]:
 
     return None
 
-def register_user(username, password):
+def register_user(username: str, password: str) -> bool:
     response = send_request({
         "action": "register_user",
         "username": username,
