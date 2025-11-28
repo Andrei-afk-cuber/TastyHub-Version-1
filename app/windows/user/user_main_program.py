@@ -1,5 +1,4 @@
 import customtkinter as ctk
-from pathlib import Path
 
 from app.windows.user.user_frames import MainFrame, AddRecipeFrame, ShowRecipeFrame, UserProfileFrame
 from app.classes import User
@@ -70,4 +69,6 @@ class MainApp(ctk.CTk):
         self.frames = {}
 
 if __name__ == "__main__":
-    MainApp().mainloop()
+    main_app = MainApp()
+    main_app.open_user_profile_frame()
+    main_app.mainloop()

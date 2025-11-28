@@ -400,7 +400,7 @@ class AddRecipeFrame(ctk.CTkFrame):
             if self.recipe:
                 author = self.recipe.getAuthor()
             else:
-                author = self.master.user.getUsername()
+                author = self.master.user.username()
 
             ingredients = [i.strip().lower() for i in ingredients.split(',')]
             recipe = Recipe(author ,name, description, picture_path, cocking_time, ingredients)
@@ -418,6 +418,44 @@ class AddRecipeFrame(ctk.CTkFrame):
             messagebox.showerror("Ошибка", "Вы не заполнили все поля")
 
         print("Вы отправили рецепт")
+
+        # # Метод отправки рецепта
+        # def send_recipe(self, update=False, by_admin=False):
+        #     name = self.recipe_name_entry.get().strip().lower()
+        #     try:
+        #         cocking_time = int(self.recipe_cocking_time_entry.get().strip())
+        #     except ValueError:
+        #         messagebox.showerror("Ошибка", "Время приготовления должно быть целым числом")
+        #
+        #     ingredients = self.recipe_product_textbox.get('1.0', 'end').strip()
+        #     description = self.recipe_description_textbox.get('1.0', 'end').strip()
+        #     try:
+        #         picture_path = self.selected_image_path
+        #     except:
+        #         messagebox.showerror("Ошибка", "Выберите картинку для рецепта")
+        #
+        #     if name and cocking_time and ingredients and description and picture_path:
+        #         if self.recipe:
+        #             author = self.recipe.getAuthor()
+        #         else:
+        #             author = self.master.user.getUsername()
+        #
+        #         ingredients = [i.strip().lower() for i in ingredients.split(',')]
+        #         recipe = Recipe(author, name, description, picture_path, cocking_time, ingredients)
+        #
+        #         # Сохраняем или заменяем существующий рецепт
+        #         if update:
+        #             update_recipe_by_id(self.recipe, recipe, by_admin=by_admin)
+        #         else:
+        #             save_recipe(recipe)
+        #
+        #         self.master.open_main_frame()
+        #
+        #         return
+        #     else:
+        #         messagebox.showerror("Ошибка", "Вы не заполнили все поля")
+        #
+        #     print("Вы отправили рецепт")
 
     def load_image_dialog(self):
         file_path = filedialog.askopenfilename(
@@ -583,7 +621,7 @@ class UserProfileFrame(ctk.CTkFrame):
         super().__init__(master)
 
         self.master = master
-        self.recipes = load_recipes(by_author=self.master.user.user_name, only_confirmed=False)
+        self.recipes = load_recipes(by_name=self.master.user.username, only_confirmed=False)
 
         self.setup_user_profile_frame()
 
@@ -607,7 +645,7 @@ class UserProfileFrame(ctk.CTkFrame):
 
         ctk.CTkLabel(
             master=self.header_frame,
-            text=f"Профиль пользователя {self.master.user.getUsername()}",
+            text=f"Профиль пользователя {self.master.user.username}",
             font=('Century Gothic', 24)
         ).place(relx=0.5, rely=0.5, anchor=ctk.CENTER)
 
@@ -631,7 +669,7 @@ class UserProfileFrame(ctk.CTkFrame):
 
     # Метод отображения рецептов
     def display_recipes(self):
-        self.recipes = load_recipes(by_author=self.master.user.getUsername(), only_confirmed=False)
+        self.recipes = load_recipes(by_name=self.master.user.username, only_confirmed=False)
         # Очищаем контейнер перед добавлением новых карточек
         for widget in self.recipes_container.winfo_children():
             widget.destroy()

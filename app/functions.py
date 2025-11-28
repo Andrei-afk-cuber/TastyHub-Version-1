@@ -279,7 +279,7 @@ class EditableRecipeCard(ctk.CTkFrame):
 
         self.name_label = ctk.CTkLabel(
             master=self,
-            text=recipe.getName().capitalize(),
+            text=recipe.name.capitalize(),
             font=("Arial", 14, "bold"),
             wraplength=180,
             text_color=theme['text_color'],
@@ -287,7 +287,7 @@ class EditableRecipeCard(ctk.CTkFrame):
         )
         self.name_label.grid(row=0, column=0, padx=10, pady=(10, 5), sticky="n")
 
-        if not recipe.getConfirmed():
+        if not recipe.name:
             self.name_label.configure(text_color="red")
 
         self.image_label = ctk.CTkLabel(
@@ -301,7 +301,7 @@ class EditableRecipeCard(ctk.CTkFrame):
         self.image_label.grid(row=1, column=0, padx=10, pady=5)
 
         short_desc = (recipe.getDescription()[:100] + "...") if len(
-            recipe.getDescription()) > 100 else recipe.getDescription()
+            recipe.description) > 100 else recipe.description
         self.desc_label = ctk.CTkLabel(
             self,
             text=short_desc,
@@ -569,7 +569,7 @@ class UserCard(ctk.CTkFrame):
 
         self.username_label = ctk.CTkLabel(
             master=self,
-            text=user.getUsername(),
+            text=user.username(),
             text_color="green",
             font=("Century Gothic", 14, "bold"),
         )
@@ -579,7 +579,7 @@ class UserCard(ctk.CTkFrame):
             self.username_label.configure(text_color="red")
         if user.isAdmin():
             self.username_label.configure(text_color="blue")
-        if self.main_program.user.getUsername() == user.getUsername():
+        if self.main_program.user.username() == user.username():
             self.username_label.configure(text_color="gold")
 
         self.delete_user_button = ctk.CTkButton(
@@ -618,7 +618,7 @@ class UserCard(ctk.CTkFrame):
     def confirm_user_confirm(self):
         answer = messagebox.askyesno(
             "Подтверждение верификации",
-            f"Вы уверены, что хотите подтвердить пользователя '{self.user.getUsername()}'?",
+            f"Вы уверены, что хотите подтвердить пользователя '{self.user.username()}'?",
             parent=self
         )
         if answer:
@@ -628,7 +628,7 @@ class UserCard(ctk.CTkFrame):
     def confirm_user_admin(self):
         answer = messagebox.askyesno(
             "Подтверждение админки",
-            f"Вы уверены, что хотите выдать пользователю '{self.user.getUsername()}' права администратора?",
+            f"Вы уверены, что хотите выдать пользователю '{self.user.username()}' права администратора?",
         )
         if answer:
             grant_admin_privileges(self.user)
@@ -637,7 +637,7 @@ class UserCard(ctk.CTkFrame):
     def confirm_user_delete(self):
         answer = messagebox.askyesno(
             "Подтверждение удаления",
-            f"Вы уверены, что хотите удалить пользователя '{self.user.getUsername()}'?",
+            f"Вы уверены, что хотите удалить пользователя '{self.user.username()}'?",
             parent=self
         )
         if answer:

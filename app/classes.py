@@ -6,7 +6,7 @@ from app.config import theme
 
 # user data-class
 class User:
-    def __init__(self, id: int, username: str, password: str, admin: int, authorized: int, recipes: list) -> None:
+    def __init__(self, id: int, username: str, password: str, admin: int=0, authorized: int=0, recipes: list=[]) -> None:
         self._id = id
         self._username = username
         self._password = password
