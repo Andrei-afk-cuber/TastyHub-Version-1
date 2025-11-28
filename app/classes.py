@@ -2,6 +2,8 @@ import customtkinter as ctk
 import os
 from PIL import ImageTk, Image
 
+from app.config import theme
+
 class User(object):
     def __init__(self, username, password, admin=False, authorized=False, id=0):
         self.__id = id
@@ -40,61 +42,49 @@ class User(object):
     def deactivateAccount(self):
         self.__authorized = False
 
-class Recipe(object):
-    def __init__(self, author, name, description, picture_path, cooking_time = 0, product_list=[], confirmed=False, id=0):
-        self.__id = id
-        self.__name = name
-        self.__description = description
-        self.__cooking_time = cooking_time
-        self.__product_list = product_list
-        self.__confirmed = confirmed
-        self.__picture_path = picture_path
-        self.__author = author
+# recipe model
+class Recipe:
+    def __init__(self, id, name, description, cooking_time, picture_path, confirmed, user_id, products):
+        self._id = id
+        self._name = name
+        self._description = description
+        self._cooking_time = cooking_time
+        self._picture_path = picture_path
+        self._confirmed = confirmed
+        self._user_id = user_id
+        self._products = products
 
-    def getId(self):
-        return self.__id
+    @property
+    def id(self):
+        return self._id
 
-    def getAuthor(self):
-        return self.__author
+    @property
+    def name(self):
+        return self._name
 
-    def getName(self):
-        return self.__name
+    @property
+    def description(self):
+        return self._description
 
-    def getDescription(self):
-        return self.__description
+    @property
+    def cooking_time(self):
+        return self._cooking_time
 
-    def getCookingTime(self):
-        return self.__cooking_time
+    @property
+    def picture_path(self):
+        return self._picture_path
 
-    def getProductList(self):
-        return self.__product_list
+    @property
+    def confirmed(self):
+        return self._confirmed
 
-    def getPicturePath(self):
-        return self.__picture_path
+    @property
+    def user_id(self):
+        return self._user_id
 
-    def getConfirmed(self):
-        return self.__confirmed
-
-    def setName(self, name):
-        self.__name = name
-
-    def setAuthor(self, author):
-        self.__author = author
-
-    def setDescription(self, description):
-        self.__description = description
-
-    def setCookingTime(self, cooking_time):
-        self.__cooking_time = cooking_time
-
-    def setProductList(self, product_list):
-        self.__product_list = product_list
-
-    def setConfirmed(self, confirmed=True):
-        self.__confirmed = confirmed
-
-    def setPiсturePath(self, picture_path):
-        self.__picture_path = picture_path
+    @property
+    def products(self):
+        return self._products
 
     def to_dict(self):
         return {
@@ -107,6 +97,9 @@ class Recipe(object):
             "confirmed": self.__confirmed,
             "picture_path": self.__picture_path,
         }
+
+    def __repr__(self):
+        return f"Recipe(id={self._id}, name={self._name}, user_id={self._user_id}...)"
 
 class RecipeCard(ctk.CTkFrame):
     def __init__(self, master, recipe, main_program):
@@ -128,7 +121,7 @@ class RecipeCard(ctk.CTkFrame):
         # Название рецепта
         self.name_label = ctk.CTkLabel(
             self,
-            text=recipe.getName().capitalize(),
+            text=recipe.name.capitalize(),
             font=("Arial", 14, "bold"),
             wraplength=180,
             text_color=theme['text_color'],
