@@ -104,7 +104,7 @@ def load_recipes(only_confirmed=True, by_name=None, by_ingredients=None):       
                 recipe_data['cooking_time'],
                 picture_path,
                 recipe_data['confirmed'],
-                recipe_data['user_id'],
+                recipe_data['user_name'],
                 recipe_data['products']
             ))
 

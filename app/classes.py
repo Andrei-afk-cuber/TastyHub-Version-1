@@ -44,14 +44,14 @@ class User(object):
 
 # recipe model
 class Recipe:
-    def __init__(self, id, name, description, cooking_time, picture_path, confirmed, user_id, products):
+    def __init__(self, id, name, description, cooking_time, picture_path, confirmed, user_name, products):
         self._id = id
         self._name = name
         self._description = description
         self._cooking_time = cooking_time
         self._picture_path = picture_path
         self._confirmed = confirmed
-        self._user_id = user_id
+        self._user_name = user_name
         self._products = products
 
     @property
@@ -79,8 +79,8 @@ class Recipe:
         return self._confirmed
 
     @property
-    def user_id(self):
-        return self._user_id
+    def user_name(self):
+        return self._user_name
 
     @property
     def products(self):
@@ -88,18 +88,18 @@ class Recipe:
 
     def to_dict(self):
         return {
-            "id": self.__id,
-            "author": self.__author,
-            "name": self.__name,
-            "description": self.__description,
-            "cooking_time": self.__cooking_time,
-            "product_list": self.__product_list,
-            "confirmed": self.__confirmed,
-            "picture_path": self.__picture_path,
+            'id': self._id,
+            'name': self._name,
+            'description': self.description,
+            'cooking_time': self.cooking_time,
+            'picture_path': self.picture_path,
+            'confirmed': self.confirmed,
+            'user_name': self.user_name,
+            'products': self.products
         }
 
     def __repr__(self):
-        return f"Recipe(id={self._id}, name={self._name}, user_id={self._user_id}...)"
+        return f"Recipe(id={self._id}, name={self._name}, user_name={self._user_name}...)"
 
 class RecipeCard(ctk.CTkFrame):
     def __init__(self, master, recipe, main_program):

@@ -473,7 +473,7 @@ class ShowRecipeFrame(ctk.CTkFrame):
         # Название рецепта и автор
         ctk.CTkLabel(
             master=self.show_recipe_frame,
-            text=f"{self.recipe.name} by {self.recipe.user_id} ({self.recipe.cooking_time} мин.)",
+            text=f"{self.recipe.name} by {self.recipe.user_name} ({self.recipe.cooking_time} мин.)",
             font=('Century Gothic', 24, 'bold'),
         ).place(relx=0.5, rely=0.5, anchor=ctk.CENTER)
 
