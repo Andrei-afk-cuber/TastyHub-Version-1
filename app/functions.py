@@ -95,8 +95,6 @@ def load_recipes(only_confirmed=True, by_name=None, by_ingredients=None):       
                 with open(image_path, 'wb') as img_file:
                     img_file.write(base64.b64decode(recipe_data['image_data']))
 
-            print(recipe_data)
-
             recipes.append(Recipe(
                 recipe_data["id"],
                 recipe_data['name'],
@@ -184,7 +182,7 @@ def copy_image(source_path, destination_folder="recipe_images"):
 
 def save_recipe(recipe):
     try:
-        image_path = recipe.getPicturePath()
+        image_path = recipe.picture_path()
         if not os.path.exists(image_path):
             raise FileNotFoundError(f"Файл изображения не найден: {image_path}")
         img = Image.open(image_path)
@@ -228,7 +226,7 @@ def update_recipe_by_id(old_recipe, new_recipe, by_admin=False):
             "products": ', '.join(new_recipe.getProductList()),
             "image_name": os.path.basename(new_recipe.getPicturePath()),
             "image_data": None,
-            "old_image": old_recipe.getPicturePath()
+            "old_image": None
         },
         "by_admin": by_admin
     })

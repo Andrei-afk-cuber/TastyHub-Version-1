@@ -332,10 +332,10 @@ class AddRecipeFrame(ctk.CTkFrame):
     # Метод для загрузки изображения уже существующего рецепта
     def load_existing_recipe_image(self):
         try:
-            if not self.recipe or not self.recipe.getPicturePath():
+            if not self.recipe or not self.recipe.picture_path:
                 return
 
-            image_path = os.path.join("recipe_images", self.recipe.getPicturePath())
+            image_path = os.path.join("recipe_images", self.recipe.picture_path)
             if os.path.exists(image_path):
                 # Сохраняем путь к текущему изображению
                 self.selected_image_path = image_path
@@ -542,7 +542,7 @@ class ShowRecipeFrame(ctk.CTkFrame):
 
     def load_recipe_image(self):
         try:
-            image_path = os.path.join("recipe_images", self.recipe.getPicturePath())
+            image_path = os.path.join("recipe_images", self.recipe.picture_path)
 
             if os.path.exists(image_path):
                 img = Image.open(image_path)

@@ -169,7 +169,7 @@ class RecipeCard(ctk.CTkFrame):
 
     def load_recipe_image(self):
         try:
-            image_path = os.path.join("recipe_images", self.recipe.getPicturePath())
+            image_path = os.path.join("recipe_images", self.recipe.picture_path)
 
             if os.path.exists(image_path):
                 img = Image.open(image_path)
