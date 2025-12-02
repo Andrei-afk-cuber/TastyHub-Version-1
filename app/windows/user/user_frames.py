@@ -323,10 +323,10 @@ class AddRecipeFrame(ctk.CTkFrame):
             self.text.configure(text="Редактирование рецепта")
 
             # Устанавливаем значения для полей рецепта
-            self.recipe_name_entry.insert(0, self.recipe.getName())
-            self.recipe_cocking_time_entry.insert(0, str(self.recipe.getCookingTime()))
-            self.recipe_description_textbox.insert("1.0", self.recipe.getDescription())
-            self.recipe_product_textbox.insert("1.0", ", ".join(self.recipe.getProductList()))
+            self.recipe_name_entry.insert(0, self.recipe.name)
+            self.recipe_cocking_time_entry.insert(0, str(self.recipe.cooking_time))
+            self.recipe_description_textbox.insert("1.0", self.recipe.description)
+            self.recipe_product_textbox.insert("1.0", ", ".join(self.recipe.products))
 
             # Загружаем существующее изображение рецепта
             self.load_existing_recipe_image()

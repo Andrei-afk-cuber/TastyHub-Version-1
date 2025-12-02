@@ -188,23 +188,11 @@ def save_recipe(recipe):
         messagebox.showerror("Ошибка", f"Ошибка при сохранении рецепта: {str(e)}")
         return None
 
-def update_recipe_by_id(old_recipe, new_recipe, by_admin=False):
-    response = send_request({
-        "action": "update_recipe",
-        "recipe_data": {
-            "id": old_recipe.getId(),
-            "author_name": new_recipe.getAuthor(),
-            "recipe_name": new_recipe.getName(),
-            "description": new_recipe.getDescription(),
-            "cooking_time": new_recipe.getCookingTime(),
-            "products": ', '.join(new_recipe.getProductList()),
-            "image_name": os.path.basename(new_recipe.picture_path),
-            "image_data": None,
-            "old_image": None
-        },
-        "by_admin": by_admin
-    })
-    return response.get("status") == "success"
+# method for update recipe
+def update_recipe_by_id(old_recipe, new_recipe, by_admin=False):            # 1. Delete recipe 2. Save recipe as new with exsisiting id
+    delete_recipe(old_recipe)
+    new_recipe.confirmed = int(by_admin)
+    save_recipe(new_recipe)
 
 def delete_recipe(recipe):
     response = send_request({
@@ -359,10 +347,7 @@ class EditableRecipeCard(ctk.CTkFrame):
             'action': 'delete_recipe',
             'recipe_id': self.recipe.id
         })
-        if response.get('status') == 'success':
-            return True
-        else:
-            return False
+        return response.get('status') == 'success'
 
 class AdminRecipeCard(ctk.CTkFrame):
     def __init__(self, master, recipe, main_program):
