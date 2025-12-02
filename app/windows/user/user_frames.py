@@ -160,9 +160,12 @@ class MainFrame(ctk.CTkFrame):
 
         if self.radiobutton_variable.get() == "name":
             print("Поиск по названию рецепта")
+            search_request = self.search_entry.get().strip().lower()
             self.display_recipes(by_name=search_request)
         elif self.radiobutton_variable.get() == "ingredients":
             print("Поиск по ингредиентам")
+            search_request = self.search_entry.get().strip().lower()
+            search_request = [product.strip().lower() for product in self.search_entry.get().split(',')]
             self.display_recipes(by_ingredients=search_request)
 
 class AddRecipeFrame(ctk.CTkFrame):
