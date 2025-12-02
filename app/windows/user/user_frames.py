@@ -646,7 +646,7 @@ class UserProfileFrame(ctk.CTkFrame):
 
     # Метод отображения рецептов
     def display_recipes(self):
-        self.recipes = load_recipes(by_name=self.master.user.username, only_confirmed=False)
+        self.recipes = load_recipes(by_username=self.master.user.username, only_confirmed=False)
         # Очищаем контейнер перед добавлением новых карточек
         for widget in self.recipes_container.winfo_children():
             widget.destroy()

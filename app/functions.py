@@ -86,12 +86,13 @@ def load_products():
     if response.get("status") == "success":
         pass
 
-def load_recipes(only_confirmed=True, by_name=None, by_ingredients=None):                             # temp method for check bug place
+def load_recipes(only_confirmed=True, by_name=None, by_ingredients=None, by_username=None):                             # temp method for check bug place
     response = send_request({
         "action": "load_recipes",
         "only_confirmed": only_confirmed,
         "by_name": by_name,
-        "by_ingredients": by_ingredients
+        "by_ingredients": by_ingredients,
+        "by_username": by_username
     })
 
     if response.get("status") == "success":
@@ -208,7 +209,7 @@ def update_recipe_by_id(old_recipe, new_recipe, by_admin=False):
 def delete_recipe(recipe):
     response = send_request({
         "action": "delete_recipe",
-        "recipe_id": recipe.getId()
+        "recipe_id": recipe.id
     })
     return response.get("status") == "success"
 
@@ -340,11 +341,11 @@ class EditableRecipeCard(ctk.CTkFrame):
     def confirm_delete(self):
         answer = messagebox.askyesno(
             "Подтверждение удаления",
-            f"Вы уверены, что хотите удалить рецепт '{self.recipe.getName()}'?",
+            f"Вы уверены, что хотите удалить рецепт '{self.recipe.name}'?",
             parent=self
         )
         if answer:
-            if delete_recipe(self.recipe):
+            if self.delete_recipe():
                 self.destroy()
                 if hasattr(self.main_program, 'user_profile_frame'):
                     self.main_program.user_profile_frame.display_recipes()
@@ -354,30 +355,14 @@ class EditableRecipeCard(ctk.CTkFrame):
                 messagebox.showerror("Ошибка", "Не удалось удалить рецепт", parent=self)
 
     def delete_recipe(self):
-        try:
-            db, cursor = get_database_connection()
-            recipe_id = self.recipe.getId()
-            cursor.execute("DELETE FROM recipes WHERE id = ?", (recipe_id,))
-            db.commit()
-            if hasattr(self, 'ctk_image'):
-                self.image_label.configure(image=None)
-                del self.ctk_image
-            image_path = os.path.join("recipe_images", self.recipe.picture_path)
-            if os.path.exists(image_path):
-                try:
-                    os.remove(image_path)
-                except PermissionError:
-                    import time
-                    time.sleep(0.5)
-                    try:
-                        os.remove(image_path)
-                    except Exception as e:
-                        print(f"Не удалось удалить изображение: {e}")
-            messagebox.showinfo("Успех", "Рецепт успешно удален.", parent=self)
-        except Exception as e:
-            messagebox.showerror("Ошибка", f"Не удалось удалить рецепт: {str(e)}", parent=self)
-        finally:
-            close_database_connection(db)
+        response = send_request({
+            'action': 'delete_recipe',
+            'recipe_id': self.recipe.id
+        })
+        if response.get('status') == 'success':
+            return True
+        else:
+            return False
 
 class AdminRecipeCard(ctk.CTkFrame):
     def __init__(self, master, recipe, main_program):
@@ -619,4 +604,4 @@ class UserCard(ctk.CTkFrame):
 
 # debug
 if __name__ == '__main__':
-    print(load_recipes())
+    pass
