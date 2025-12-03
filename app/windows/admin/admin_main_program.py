@@ -7,7 +7,7 @@ from app.config import ICON_PATH
 
 # Основное окно приложения
 class MainApp(ctk.CTk):
-    def __init__(self, user=User("test_admin", 0000, True)):
+    def __init__(self, user=User(4, 'admin', '0000')):
         super().__init__()
 
         self.user = user
@@ -44,5 +44,5 @@ class MainApp(ctk.CTk):
             frame.destroy()
         self.frames = {}
 
-# Раскомментировать при запуске AdminMainProgram
-# MainApp().mainloop()
+if __name__ == '__main__':
+    MainApp().mainloop()

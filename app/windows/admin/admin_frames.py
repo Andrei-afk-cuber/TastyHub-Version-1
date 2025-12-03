@@ -23,7 +23,7 @@ class MainFrame(ctk.CTkFrame):
         # top text
         self.text = CTkLabel(
             master=self.main_frame,
-            text=self.master.user.username(),
+            text=self.master.user.username,
             font=('Times New Roman', 12)
         )
         self.text.place(x=90, y=45)

@@ -371,7 +371,7 @@ class AdminRecipeCard(ctk.CTkFrame):
 
         self.name_label = ctk.CTkLabel(
             master=self,
-            text=recipe.getName(),
+            text=recipe.name,
             font=("Arial", 14, "bold"),
             wraplength=180,
             text_color=theme['text_color'],
@@ -379,7 +379,7 @@ class AdminRecipeCard(ctk.CTkFrame):
         )
         self.name_label.place(relx=0.5, rely=0.1, anchor=ctk.CENTER)
 
-        if not recipe.getConfirmed():
+        if not recipe.confirmed:
             self.name_label.configure(text_color="red")
 
         self.image_label = ctk.CTkLabel(
@@ -392,8 +392,8 @@ class AdminRecipeCard(ctk.CTkFrame):
         )
         self.image_label.place(relx=0.01, rely=0.5, anchor='w')
 
-        short_desc = (recipe.getDescription()[:100] + "...") if len(
-            recipe.getDescription()) > 100 else recipe.getDescription()
+        short_desc = (recipe.description[:100] + "...") if len(
+            recipe.description) > 100 else recipe.description
         self.desc_label = ctk.CTkLabel(
             self,
             text=short_desc,
@@ -427,7 +427,7 @@ class AdminRecipeCard(ctk.CTkFrame):
         )
         self.edit_btn.place(x=1100, y=80, anchor='w')
 
-        if not self.recipe.getConfirmed():
+        if not self.recipe.confirmed:
             self.edit_btn.configure(
                 text="Одобрить",
                 fg_color="#17ad03",
@@ -463,7 +463,7 @@ class AdminRecipeCard(ctk.CTkFrame):
     def confirm_delete(self):
         answer = messagebox.askyesno(
             "Подтверждение удаления",
-            f"Вы уверены, что хотите удалить рецепт '{self.recipe.getName()}'?",
+            f"Вы уверены, что хотите удалить рецепт '{self.recipe.name}'?",
             parent=self
         )
         if answer:
